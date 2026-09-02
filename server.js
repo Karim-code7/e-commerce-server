@@ -26,9 +26,7 @@ const app = express();
 // create a seprate file for this and then import/use that file here
 
 mongoose
-  .connect(
-    "mongodb+srv://karemkarem201465:karemkarem201465@cluster0.ysbcivy.mongodb.net/",
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => console.log(" Mongodb connection"))
   .catch((err) => console.log("Error : ", err.message));
 
