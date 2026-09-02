@@ -79,8 +79,9 @@ const loginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: false, // طالما شغال localhost خليها false
-        maxAge: 24 * 60 * 60 * 1000, // 🌟 يوم كامل بالملي ثانية عشان يطابق الـ 1d بتاعة التوكن ويحميها من الاختفاء تلقائياً
+        secure: true, // ضروري جداً لأن سيرفر Vercel شغال على بروتوكول HTTPS
+        sameSite: "none", // ضروري جداً عشان المتصفح يسمح بإرسال الـ Cookie بين الـ localhost وسيرفر Vercel
+        maxAge: 24 * 60 * 60 * 1000,
       })
       .json({
         success: true,

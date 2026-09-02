@@ -32,8 +32,11 @@ mongoose
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: [`GET`, `POST`, `DELETE`, `PUT`],
+    origin: [
+      "http://localhost:5173",
+      "https://e-commerce-client-lrcg.vercel.app", // ضع رابط موقعك الحقيقي هنا بدون / في النهاية
+    ],
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
       "Authorization",
