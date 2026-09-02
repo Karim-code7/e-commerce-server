@@ -50,6 +50,9 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.json({ message: "E-commerce Server is running successfully!" });
+});
 app.use("/api/auth", authRouter);
 app.use(
   "/api/admin/products",
