@@ -29,10 +29,6 @@ const registerUser = async (req, res) => {
       success: true,
       message: "Registration succssfuly",
     });
-    console.log(
-      "🚀 ~ file: auth-controller.js:5 ~ registerUser ~ req.body:",
-      secretKey,
-    );
   } catch (e) {
     console.log(e);
     res.status(500).json({
@@ -44,7 +40,6 @@ const registerUser = async (req, res) => {
 // LOGIN
 
 const loginUser = async (req, res) => {
-  console.log(process.env.JWT_SECRET);
   const { email, password } = req.body;
 
   try {
@@ -79,8 +74,8 @@ const loginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true, // ضروري جداً لأن سيرفر Vercel شغال على بروتوكول HTTPS
-        sameSite: "none", // ضروري جداً عشان المتصفح يسمح بإرسال الـ Cookie بين الـ localhost وسيرفر Vercel
+        secure: true, // لازم تكون true لأن سيرفر Vercel شغال HTTPS
+        sameSite: "none", // لازم تكون none عشان تسمح بمرورها من localhost لـ Vercel
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json({
