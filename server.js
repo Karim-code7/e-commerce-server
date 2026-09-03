@@ -95,6 +95,7 @@ app.use(
   shopSearchRouter,
 );
 app.use("/api/shop/review", authMiddleware, shopReviewRouter);
+
 const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV !== "production") {
