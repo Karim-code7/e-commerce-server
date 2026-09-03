@@ -105,25 +105,26 @@ const logoutUser = (req, res) => {
 };
 // AUTH MIDDLEWARE
 const authMiddleware = async (req, res, next) => {
-  const token = req.cookies.token;
+  // تأكد إنك مستخدم حزمة cookie-parser في ملف server.js عشان تقرأ الكوكيز صح
+  const token = req.cookies.token; // أو req.headers['authorization'] لو بتبعتها في الهيدر
 
   if (!token)
-    return res.status(401).json({
+    return res.json({
       success: false,
       message: "Unauthorised user! Please login.",
     });
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // بنخزن بياناته (Id, role) جوه الـ req
-    next(); // عدي، طالما مسجل دخول اخل جوه
+    req.user = decoded;
+    next();
   } catch (error) {
-    res.clearCookie("token").status(401).json({
+    return res.json({
       success: false,
-      message: "Unauthorised user!",
+      message: "Unauthorised user! Please login.",
     });
   }
 };
-
 const isAdminMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
 

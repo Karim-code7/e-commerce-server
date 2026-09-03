@@ -34,7 +34,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      // "https://e-commerce-client-lrcg.vercel.app", // ضع رابط موقعك الحقيقي هنا بدون / في النهاية
+      "https://e-commerce-client-lrcg.vercel.app",
     ],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
   res.json({ message: "E-commerce Server is running successfully!" });
 });
 app.use("/api/auth", authRouter);
+
 app.use(
   "/api/admin/products",
   authMiddleware,
@@ -86,6 +87,11 @@ app.use(
 );
 app.use("/api/shop/review", authMiddleware, shopReviewRouter);
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log("Server is now rounning on port 5000");
-});
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
