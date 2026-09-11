@@ -17,11 +17,6 @@ const handleMultipleImagesUpload = async (req, res) => {
       req.files,
       "ecommerce",
     );
-
-    res.json({
-      success: true,
-      result: imageUrls,
-    });
     return res.status(200).json({
       success: true,
       message: "Images uploaded successfully",

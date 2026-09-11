@@ -32,7 +32,10 @@ mongoose
 
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "http://localhost:5173",
+      "https://e-commerce-client-gray-chi.vercel.app/",
+    ],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
@@ -52,25 +55,10 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRouter);
 
-app.use(
-  "/api/admin/products",
-  authMiddleware,
-  isAdminMiddleware,
-  adminProductRouter,
-);
-app.use(
-  "/api/admin/order",
-  authMiddleware,
-  isAdminMiddleware,
-  adminOrderRouter,
-);
-app.use(
-  "/api/admin/analytics",
-  authMiddleware,
-  isAdminMiddleware,
-  adminAnalyticsRouter,
-);
-app.use("/api/admin/user", authMiddleware, isAdminMiddleware, adminUserRouter);
+app.use("/api/admin/products", isAdminMiddleware, adminProductRouter);
+app.use("/api/admin/order", isAdminMiddleware, adminOrderRouter);
+app.use("/api/admin/analytics", isAdminMiddleware, adminAnalyticsRouter);
+app.use("/api/admin/user", isAdminMiddleware, adminUserRouter);
 app.use("/api/common/features-image", authMiddleware, adminFeatureRouter);
 app.use("/api/shop/products", authMiddleware, productRouter);
 app.use("/api/shop/cart", authMiddleware, shopCartRouter);

@@ -3,6 +3,7 @@ const Order = require("../../models/Order");
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({});
+    console.log(token);
     if (!orders || orders.length === 0) {
       return res.status(404).json({
         success: false,

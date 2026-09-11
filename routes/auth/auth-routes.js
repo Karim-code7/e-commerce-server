@@ -21,7 +21,7 @@ router.get("/check-auth", authMiddleware, (req, res) => {
     user,
   });
 });
-router.get("/check-admin", authMiddleware, isAdminMiddleware, (req, res) => {
+router.get("/check-admin", isAdminMiddleware, (req, res) => {
   const user = req.user;
   res.status(200).json({
     success: true,

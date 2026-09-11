@@ -1,10 +1,9 @@
 const cloudinary = require("cloudinary").v2;
 const sharp = require("sharp");
-
 cloudinary.config({
-  cloud_name: "dcqh208zr",
-  api_key: "815798313845598",
-  api_secret: "_JdUQrVKH1HURbKPQ-0pZXCqYiA",
+  cloud_name: process.env.CLOUDEINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDEINARY_API_KEY,
+  api_secret: process.env.CLOUDEINARY_SECRET_KEY,
 });
 
 const handleMultipleImagesUploadUtil = async (

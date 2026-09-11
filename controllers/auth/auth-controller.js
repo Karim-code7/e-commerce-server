@@ -1,9 +1,8 @@
-require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 // REFISTER
-
+const isProduction = process.env.NODE_ENV === "production";
 const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
   try {
@@ -46,7 +45,7 @@ const loginUser = async (req, res) => {
     if (!checkUser)
       return res.json({
         success: false,
-        message: "User doesn't exists!",
+        message: "Invalid email or password Please try again",
       });
 
     const chekPassowrdMatch = await bcrypt.compare(
@@ -56,7 +55,7 @@ const loginUser = async (req, res) => {
     if (!chekPassowrdMatch)
       return res.json({
         success: false,
-        message: "Incorret password! Please try again",
+        message: "Invalid email or password Please try again",
       });
 
     const token = jwt.sign(
@@ -73,8 +72,9 @@ const loginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true, // لازم تكون true لأن سيرفر Vercel شغال HTTPS
-        sameSite: "none", // لازم تكون none عشان تسمح بمرورها من localhost لـ Vercel
+        secure: isProduction, // لازم تكون false عشان تسمح بمرورها من localhost لـ Vercel
+        sameSite: isProduction ? "none" : "lax", // لازم تكون none عشان تسمح بمرورها من localhost لـ Vercel
+
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json({
@@ -126,11 +126,12 @@ const authMiddleware = async (req, res, next) => {
 };
 const isAdminMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
-
+  // console.log("Token from cookie:", req); // 🌟 Debug: Print the token to the console
+  console.log("Token from cookie:", token); // 🌟 Debug: Print the token to the console
   if (!token)
     return res.status(401).json({
       success: false,
-      message: "Unauthorised user! Please login.",
+      message: "Unauthorised admin! Please login.",
     });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -138,7 +139,7 @@ const isAdminMiddleware = async (req, res, next) => {
     if (req.user.role !== "admin") {
       res.clearCookie("token").status(401).json({
         success: false,
-        message: "Unauthorised user! Only admin can access",
+        message: "Unauthorised admin! Only admin can access",
       });
       return;
     }
