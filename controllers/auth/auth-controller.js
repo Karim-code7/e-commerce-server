@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 // REFISTER
 const isProduction = process.env.NODE_ENV === "production";
+
 const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
   try {
