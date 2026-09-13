@@ -34,7 +34,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://e-commerce-client-gray-chi.vercel.app/",
+      "https://e-commerce-server-pi.vercel.app",
     ],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
