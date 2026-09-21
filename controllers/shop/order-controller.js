@@ -3,6 +3,7 @@ const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
 const Product = require("../../models/Product");
 
+const URL = process.env.VERSAL_API_URL || "http://localhost:5173";
 const createOrder = async (req, res) => {
   try {
     const {
@@ -60,8 +61,8 @@ const createOrder = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/shop/paypal-return",
-        cancel_url: "http://localhost:5173/shop/paypal-cansel",
+        return_url: ` ${URL}/shop/paypal-return`,
+        cancel_url: ` ${URL}/shop/paypal-cancel`,
       },
       transactions: [
         {
